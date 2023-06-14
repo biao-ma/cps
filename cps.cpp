@@ -114,7 +114,11 @@ void worker(const int rank) {
     MPI_Recv(buf.get(), len, MPI_CHAR, 0, 0, MPI_COMM_WORLD, &st);
     std::string recv_string = buf.get();
     debug_printf("%d: Recieved %s\n", rank, recv_string.c_str());
-    std::system(recv_string.c_str());
+    int ret = std::system(recv_string.c_str());
+    if (ret != 0) {
+    // エラーハンドリング処理を書く
+    debug_printf("Command execution failed with return value: %d\n", ret);
+    }
   }
 }
 
